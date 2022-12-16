@@ -1,12 +1,21 @@
-FROM ubuntu:latest AS build
-
-RUN groupadd --gid 1000 developer \
-  && useradd --uid 1000 --gid developer --shell /bin/bash --create-home developer
-
-ENV DEBIAN_FRONTEND=1
-ENV PATH /usr/lib/ccache:$PATH
-
-COPY --chown=root:developer ./scripts/ /home/developer/scripts/
-RUN /home/developer/scripts/install.sh && /home/developer/scripts/mkdir.sh && /home/developer/scripts/ccache.sh && /home/developer/scripts/clone.sh && /home/developer/scripts/build.sh && make install -C /home/developer/nodejs/node && /home/developer/scripts/ncu.sh
-
-WORKDIR /home/developer/nodejs/node
+---
+version: "2.1"
+services:
+  demopc:
+    image: lscr.io/linuxserver/webtop:ubuntu-mate
+    container_name: demopc
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - PASSWORD=P@ssword!
+      - SUBFOLDER=/ #optional
+      - KEYBOARD=en-us-qwerty #optional
+      - TITLE=Webtop #optional
+    volumes:
+      - /home/demopc/config:/config
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 3001:3001
+    shm_size: "2gb" #optional
+    restart: unless-stopped

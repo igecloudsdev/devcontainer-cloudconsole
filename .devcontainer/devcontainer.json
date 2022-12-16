@@ -1,43 +1,38 @@
+FROM lscr.io/linuxserver/webtop:ubuntu-mate
 
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the
-// README at: https://github.com/devcontainers/templates/tree/main/src/javascript-node
-{
-	"name": "Node.js",
-	"image": "mcr.microsoft.com/devcontainers/javascript-node:16-bullseye",
+ARG USERNAME=vscode
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
 
-	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {},
+# Ensure apt is in non-interactive to avoid prompts
+ENV DEBIAN_FRONTEND=noninteractive
 
-	// Configure tool-specific properties.
-	"customizations": {
-		// Configure properties specific to VS Code.
-		"vscode": {
-			"settings": {},			
-			"extensions": [
-				"dbaeumer.vscode-eslint"
-			]
-		}
-	},
+# Install dependencies.
+RUN apt-get -y update --no-install-recommends \
+    && apt-get -y install --no-install-recommends \
+    build-essential \
+    curl \
+    ca-certificates \
+    apt-utils \
+    dialog \
+    git \
+    vim \
+    && apt-get autoremove -y \
+    && apt-get clean -y
 
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [3000],
+# Add Node.js repository.
+RUN curl -sL https: //deb.nodesource.com/setup_12.x | bash -
 
-	// Use 'portsAttributes' to set default properties for specific forwarded ports.
-	"portsAttributes": {
-		"3000": {
-			"label": "Hello Remote World",
-			"onAutoForward": "notify"
-		}
-	},
-	
-	// Use 'otherPortsAttributes' to configure any ports that aren't configured using 'portsAttributes'.
-	// "otherPortsAttributes": {
-	// 		"onAutoForward": "silent"
-	// },
+# Install Node.js.
+RUN apt-get -y update --no-install-recommends \
+    && apt-get -y install --no-install-recommends nodejs \
+    && apt-get autoremove -y \
+    && apt-get clean -y
 
-	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "yarn install"
+# Create the user.
+RUN groupadd --gid $USER_GID $USERNAME \
+    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME
 
-	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-	// "remoteUser": "root"
-}
+ENV DEBIAN_FRONTEND=dialog
+
+USER $USERNAME

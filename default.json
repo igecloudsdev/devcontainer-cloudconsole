@@ -1,0 +1,43 @@
+{
+    "name": "default",
+    "services": [],
+    "settings": {
+        "searchUrl": "https://bing.com/search?q=",
+        "widgetPosition": "left",
+        "searchNewTab": true
+    },
+    "modules": {
+        "Search Bar": {
+            "enabled": true
+        },
+        "calendar": {
+            "enabled": true
+        },
+        "weather": {
+            "enabled": true,
+            "options": {
+                "location": {
+                    "value": "london"
+                }
+            }
+        },
+        "usenet": {
+            "enabled": true
+        },
+        "dashdot": {
+            "enabled": true
+        },
+        "date": {
+            "enabled": true
+        },
+        "docker": {
+            "enabled": true
+        },
+        "overseerr": {
+            "enabled": true
+        },
+        "ping": {
+            "enabled": true
+        }
+    }
+}
