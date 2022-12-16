@@ -11,7 +11,7 @@ services:
       - PASSWORD=P@ssword!
       - SUBFOLDER=/ #optional
       - KEYBOARD=en-us-qwerty #optional
-      - TITLE=Webtop #optional
+      - TITLE=demopc #optional
     volumes:
       - /home/demopc/config:/config
       - /var/run/docker.sock:/var/run/docker.sock
