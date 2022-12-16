@@ -1,6 +1,8 @@
 {
     "version": "0.2.0",
     "configurations": [
+        {@action |source|optional text}
+    
 
         {
             "name": "PowerShell Launch Current File",
